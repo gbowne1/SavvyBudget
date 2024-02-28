@@ -1,6 +1,9 @@
 # SavvyBudget
 
-A
+A budget and expenses and bill tracking
+applicatoion for non commercial use in the home and for personal use.  
+
+use
 
 This app is made with:
 

@@ -1,6 +1,6 @@
 # About SavvyBudget
 
-SavvyBudget is a full-stack web application developed using MongoDB, Express, React, and Node.js. The application allows users to track their expenses and visualize their spending habits using graphs and charts. The application has a user-friendly interface that allows users to easily add, categorize, and view their expenses. The application is built using modern web development practices and features like Hooks in React and async/await in JavaScript.
+SavvyBudget is a full-stack web application developed using PostgreSQL, Express, React, and Node.js as well as the Material-UI UI library and its icon library. The application allows users to track their expenses and visualize their spending habits using graphs and charts. The application has a user-friendly interface that allows users to easily add, categorize, and view their expenses. The application is built using modern web development practices and features like Hooks in React and async/await in JavaScript.
 
 To run the application, open the command line in the cloned folder and install dependencies using npm install. To run the application for development, use npm run development or yarn development.
 

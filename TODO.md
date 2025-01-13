@@ -1,6 +1,6 @@
-# AgiliZenti ToDo App
+# SavvyBudget App
 
-This project will be used for budget and expense tracking for home and personal uses.
+This project will be used for budget and expense tracking for home and personal uses.  
 
 New user will likely come from:
 
@@ -8,48 +8,28 @@ New user will likely come from:
 
 Existing user will login as normal.
 
-- Provide a Facebook, Google, etc social login?
-- Make use of browser cookies, LocalStorage, IndexedDB, etc.
-
 App \
 
 - Use useState, useRef, useEffect, etc. hooks
 
 App | UI Components
 
-- [ ] Add a 60px Responsive TopNav w/ Material UI `<AppBar>` & `<MenuIcon>`
-- [ ] Add an Offcanvas Drawer on the left, 200-250px using Material UI `<Drawer>`
-- [ ] Add an Avatar / UserIcon
+- [ ] Add a 35-65px high Responsive TopNav w/ Material UI `<AppBar>` & `<MenuIcon>` for  desktop view.
+  - [ ] AppBar.jsx needs fixed as /home or /Home renders a terrible AppBar/TopNav.
+    - should contain a user/account icon button, a menu bar that opens the OffCanvas Drawer
+    - be responsive to 360px max-width for mobile/phone.
+    - WCAG / Aria compliant for labels, etc.
+    - Theme Toggle (Dark Mode || Light Mode)
 
 App | UI / UX:
 
 - [ ] Finish Google SEO, Ads and Analytics meta
 - [ ] Create and Add a Favicon
 - [ ] Create and Add a Logo
-- [ ] Add a Theme
+- [ ] Add a Theme toggle
   - Suggested colors:
     - Dark Mode: Black, Gray
     - Light Mode: Blue TopNav, White Canvas
-
-App | Workflow
-
-- [ ] Create a Task (add a new task or subtask)
-  - Use a calendar with date and time for start and end
-- [ ] Read a Task
-- [ ] Update a Task (change a due date)
-- [ ] Delete a Task (mark as completed)
-
-- Show a list of tasks completed
-- Integration with Google Calendar API
-
-App | User Management
-
-This app will allow a user to login
-
-- [x] Create Signin / Login component
-- [x] Create Signup / Register component
-
-- [ ] Create a User API?
 
 CSS | Theme:
 
@@ -60,9 +40,10 @@ CSS | Theme:
 
 App | CSS & A11y
 
-- [ ] Accessibility testing with Lighthouse, etc.
+- [ ] Accessibility testing with Lighthouse, Pagespeed, Firefox Accessible testing etc.
 - [ ] Testing with various browsers
 - [ ] Media Queries with breakpoints
+  - 360px max width for phone/mobile.
 
 Backend | Database:
 

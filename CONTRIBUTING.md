@@ -1,6 +1,10 @@
 # Contributing to SavvyBudget development
 
-SavvyBudget is a Full Stack ToDo app centered around budget and expense management and bill tracking.
+SavvyBudget is a full stack app centered around budget, finances, savings and expense management and bill tracking so that you can pay your bills on time and other things.
+
+You can read more about it here [About this App](docs/ABOUT.md)
+
+It uses PostgreSQL, Express, React, Node and JSX pages and components and a Material UI library.
 
 We welcome Pull Requests (PR's) as well as having people working on fixing it's current issues. If you are coming to this project new, there is not much completed yet, but we welcome contributions which get us closer to the goal of releasing.
 
@@ -8,17 +12,15 @@ If you notice an issue with this app, please feel free to open an issue.
 
 A lot of programmers, coders and developers prefer asking if they could contribute or be assigned a task as a reply to a reported issue in the Issues tab.  This is great.  We have a strict no gate-keeping policy in any of these projects.  You are welcome to work on any task/issue, just let us know that you are going to work on the an issue.  We also welcome first time contributions.
 
-Typically, if you think it will take you longer than 72 hours after having been assigned, to submit a PR, let us know that way issues do not go stale.
+Typically, if you think it will take you longer than 72 hours (6 days) after having been assigned, to submit a PR, let us know if you won't be able to work on an issue so that way issues do not go stale and can be unassigned.
 
 We welcome new contributors and those who are new to programming.  However, Some tasks may not be beginner friendly even if tagged `good first issue`.. so try and judge the task accordingly. If you are a beginner, there are smaller tasks a beginner can work on such as style issues.
 
-You should already be familiar with React 17 and or 18, JavaScript ES5/ES6/ES7.  If you are not, there are resouces for learning those.
+You should already be familiar with React 17 and or 18, JavaScript ES5/ES6/ES7.  If you are not, there are resources for learning those.
 
-At this time, We are looking for core contributors.
+At this time, We are looking for core contributors and active maintainers.
 
 ## Style
-
-I have not created an official style guide for AgiliZenti yet. If anyone would like to create a style guide for us. Please Create a new discussion for this in Discussions
 
 We would prefer the design be community driven.
 

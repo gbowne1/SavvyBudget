@@ -1,12 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { Badge, IconButton, Menu, MenuItem, AppBar as MuiAppBar, Toolbar } from '@mui/material';
-import { AccountCircle, Notifications, NotificationsOff } from '@mui/icons-material';
+import { AppBar as MuiAppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Badge } from '@mui/material';
+import { Menu as MenuIcon, AccountCircle, ExitToApp, Login } from '@mui/icons-material';
 
 const AppBar = () => {
-  const [notification, setNotification] = useState({ count: 0, state: false });
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const { state, count } = notification;
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // This will toggle between logged in and logged out state
 
   const handleMenuOpen = useCallback((event) => {
     setAnchorEl(event.currentTarget);
@@ -16,28 +14,24 @@ const AppBar = () => {
     setAnchorEl(null);
   }, []);
 
-  const handleNotificationToggle = useCallback(() => {
-    setNotification(prev => ({ ...prev, state: !prev.state }));
-  }, []);
+  const handleLoginLogout = () => {
+    setIsLoggedIn((prev) => !prev); // Toggle login/logout state
+    handleMenuClose(); // Close the menu after action
+  };
 
   return (
-    <MuiAppBar 
-      position="static"
-      sx={{
-        height: {
-          xs: '45px', // Mobile view (maximum 45px)
-          sm: '50px', // Small devices
-          md: '65px', // Medium and large devices
-        },
-        minHeight: '35px', // Ensures a minimum height of 35px for mobile
-      }}
-    >
+    <MuiAppBar position="static" sx={{ height: '40px', backgroundColor: '#0066cc' }}>
       <Toolbar>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => console.log("SideNav opened")}>
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          SavvyBudget
+        </Typography>
         <IconButton
-          edge="start"
           color="inherit"
-          aria-label="menu"
           onClick={handleMenuOpen}
+          aria-label="user account menu"
         >
           <AccountCircle />
         </IconButton>
@@ -45,20 +39,14 @@ const AppBar = () => {
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
+          MenuListProps={{ 'aria-labelledby': 'user-account-menu' }}
         >
           <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+          <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+          <MenuItem onClick={handleLoginLogout}>
+            {isLoggedIn ? 'Logout' : 'Login'}
+          </MenuItem>
         </Menu>
-        <IconButton color="inherit" onClick={handleNotificationToggle}>
-          {state ? <Notifications /> : <NotificationsOff />}
-          <Badge color="secondary" badgeContent={count}>
-            {state ? <Notifications /> : <NotificationsOff />}
-          </Badge>
-        </IconButton>
       </Toolbar>
     </MuiAppBar>
   );

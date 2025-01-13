@@ -1,30 +1,16 @@
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import AppsIcon from '@mui/icons-material/Apps';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Menu as MenuIcon, Apps as AppsIcon } from '@mui/icons-material';
 
 function SideNav() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
+  const handleDrawerOpen = () => setDrawerOpen(true);
+  const handleDrawerClose = () => setDrawerOpen(false);
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ height: 65 }}> {/* Adjust AppBar height if needed */}
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleDrawerOpen}>
             <MenuIcon />
@@ -38,7 +24,6 @@ function SideNav() {
         anchor="left"
         open={drawerOpen}
         onClose={handleDrawerClose}
-        classes={{ paper: 'drawer-paper' }}
       >
         <List>
           <ListItem button>

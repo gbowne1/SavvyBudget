@@ -1,27 +1,37 @@
-import React, { useState, useCallback } from "react";
-import { Badge, IconButton, Menu, MenuItem, AppBar as MuiAppBar, Toolbar } from "@mui/material";
-import { AccountCircle, Notifications, NotificationsOff } from "@mui/icons-material";
+import React, { useState, useCallback } from 'react';
+import { Badge, IconButton, Menu, MenuItem, AppBar as MuiAppBar, Toolbar } from '@mui/material';
+import { AccountCircle, Notifications, NotificationsOff } from '@mui/icons-material';
 
 const AppBar = () => {
- const [notification, setNotification] = useState({ count: 0, state: false });
- const [anchorEl, setAnchorEl] = useState(null);
+  const [notification, setNotification] = useState({ count: 0, state: false });
+  const [anchorEl, setAnchorEl] = useState(null);
 
- const { state, count } = notification;
+  const { state, count } = notification;
 
- const handleMenuOpen = useCallback((event) => {
+  const handleMenuOpen = useCallback((event) => {
     setAnchorEl(event.currentTarget);
- }, []);
+  }, []);
 
- const handleMenuClose = useCallback(() => {
+  const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
- }, []);
+  }, []);
 
- const handleNotificationToggle = useCallback(() => {
+  const handleNotificationToggle = useCallback(() => {
     setNotification(prev => ({ ...prev, state: !prev.state }));
- }, []);
+  }, []);
 
- return (
-    <MuiAppBar position="static">
+  return (
+    <MuiAppBar 
+      position="static"
+      sx={{
+        height: {
+          xs: '45px', // Mobile view (maximum 45px)
+          sm: '50px', // Small devices
+          md: '65px', // Medium and large devices
+        },
+        minHeight: '35px', // Ensures a minimum height of 35px for mobile
+      }}
+    >
       <Toolbar>
         <IconButton
           edge="start"
@@ -51,7 +61,7 @@ const AppBar = () => {
         </IconButton>
       </Toolbar>
     </MuiAppBar>
- );
+  );
 };
 
 export default AppBar;

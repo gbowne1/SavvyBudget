@@ -2,9 +2,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch index.html",
+            "name": "Launch index.html (Firefox)",
             "type": "firefox",
-            "request": "attach"
+            "request": "attach",
+            "url": "http://localhost:3000",  // Or the URL you want to debug
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch index.html (Chrome)",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }

@@ -60,7 +60,7 @@ Here are its core routing:
 
     Help page: This page provides users with help and support resources, such as FAQs and contact information. The help page can include components such as FAQList and ContactForm.
 
-    We also realise that tracking when the user gets paid can be useful for a budget tracking app. Knowing when the user's income is coming in can help with creating a budget and tracking expenses. For example, if the user gets paid on the 1st and 15th of every month, the app can automatically divide their monthly budget into two parts and remind them to pay bills or save money accordingly. This can be especially helpful for users who have irregular income or fluctuating expenses. forbes.com
+    We also realize that tracking when the user gets paid can be useful for a budget tracking app. Knowing when the user's income is coming in can help with creating a budget and tracking expenses. For example, if the user gets paid on the 1st and 15th of every month, the app can automatically divide their monthly budget into two parts and remind them to pay bills or save money accordingly. This can be especially helpful for users who have irregular income or fluctuating expenses. forbes.com
 
     However, tracking income can also be a sensitive topic, as some users may not want to disclose their income or financial information. It's important to make sure that the user's data is secure and private, and to provide clear explanations of how their data will be used and protected. The app can also provide options for users to manually input their income or choose not to disclose it at all.
 

@@ -32,7 +32,7 @@ If you see anything missing from this, open an issue or a discussion.
 
 - Testing
 
-  We use React Testing Library and Jest to test AgiliZenti.  There are placed in the test directory.
+  We use React Testing Library and Jest to test SavvyBudget.  There are placed in the test directory.
 
 ### PR's
 
@@ -60,7 +60,7 @@ The repository contains folders with project appropriate settings and configurat
 
 The SavvyBudget project and @gbowne1 are editor/IDE agnostic.  Feel free to use whatever editor you like to contribute to this project.  Feel free to contribute settings for VSCode that may allow a new contributor who may not have their editor configuration done already.
 
-We have recommended some intitial extensions through VSCode settings configuration.  You may choose not to install these if you like.
+We have recommended some initial extensions through VSCode settings configuration.  You may choose not to install these if you like.
 
 VSCode (.vscode)
 GitHub (.github)

@@ -1,9 +1,8 @@
 # SavvyBudget
 
-A budget and expenses and bill tracking
-applicatoion for non commercial use in the home and for personal use.  
+A budget, expenses, and bill tracking application for non-commercial home and personal use.
 
-use
+## Technologies Used
 
 This app is made with:
 
@@ -15,16 +14,46 @@ This app is made with:
 
 Bootstrapped with Create-React-App v5 aka react-scripts
 
-If you would like to contribute to this repository, please read our [Contributing](https://github.com/gbowne1/SavvyBudget/blob/main/CONTRIBUTING.md) document. We welcome your pull requests here.
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/gbowne1/SavvyBudget.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd SavvyBudget
+    ```
+3. Install dependencies:
+    ```bash
+    npm install
+    ```
+4. Start the development server:
+    ```bash
+    npm start
+    ```
+
+## Usage
 
 We recommend using this with Node 18.15.0 or at the bare minimum the latest LTS.
 
-You should already be familiar with React 17 and or 18, JavaScript ES5/ES6/ES7 and JSX.
+You should already be familiar with React 17 and/or 18, JavaScript ES5/ES6/ES7, and JSX.
 
-This is not hosted anywhere yet and the backend of this project is currently under construction so please use the Create React App development server by running`npm start` inside the root of the project folder after installing with `npm i` or `npm install`.
+Please note that this project is not hosted anywhere yet, and the backend is currently under construction. Use the Create React App development server by running `npm start` inside the root of the project.
 
-This is not hosted anywhere yet so you will have to use the create-react-app development server.
+## Contributing
 
-The backend is not implemented yet.
+If you would like to contribute to this repository, please read our [Contributing](https://github.com/gbowne1/SavvyBudget/blob/main/CONTRIBUTING.md) document. We welcome your pull requests here.
 
-If you would like something to work on, there are plenty of TODO's here <https://github.com/gbowne1/SavvyBudget/blob/main/TODO.md>
+If you would like something to work on, there are plenty of TODOs here: <https://github.com/gbowne1/SavvyBudget/blob/main/TODO.md>
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

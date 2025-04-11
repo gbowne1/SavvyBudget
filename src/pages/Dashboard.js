@@ -23,10 +23,13 @@ const Dashboard = () => {
         <Box sx={{ padding: 2 }}>
           <Typography variant="h6">Navigation</Typography>
           <List>
-            <ListItem button>
+            <ListItem button component="a" href="/dashboard">
               <ListItemText primary="Dashboard" />
             </ListItem>
-            <ListItem button>
+            <ListItem button component="a" href="/savings">
+              <ListItemText primary="Savings" />
+            </ListItem>
+            <ListItem button component="a" href="/settings">
               <ListItemText primary="Settings" />
             </ListItem>
           </List>

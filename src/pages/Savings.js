@@ -24,10 +24,17 @@ function Savings() {
   const [editIndex, setEditIndex] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Function to sanitize and format the monetary input
+  const parseAmount = (input) => {
+    const sanitized = input.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except "."
+    return parseFloat(sanitized);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (goal.trim() && amount > 0 && category.trim()) {
-      const newGoal = { goal, amount: parseFloat(amount), category, progress: 0 };
+    const parsedAmount = parseAmount(amount);
+    if (goal.trim() && parsedAmount > 0 && category.trim()) {
+      const newGoal = { goal, amount: parsedAmount, category, progress: 0 };
       if (editIndex !== null) {
         const updatedSavings = [...savings];
         updatedSavings[editIndex] = newGoal;
@@ -76,7 +83,7 @@ function Savings() {
           />
           <TextField
             label="Amount"
-            type="number"
+            type="text" // Changed to text to handle formats like "$1,000.00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             fullWidth
@@ -108,7 +115,7 @@ function Savings() {
           <ListItem key={index} divider>
             <ListItemText
               primary={`${item.goal} (${item.category})`}
-              secondary={`Amount: $${item.amount.toFixed(2)} | Progress: ${item.progress}%`}
+              secondary={`Amount: $${item.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} | Progress: ${item.progress}%`}
             />
             <LinearProgress
               variant="determinate"
@@ -143,7 +150,7 @@ function Savings() {
             />
             <TextField
               label="Amount"
-              type="number"
+              type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               fullWidth

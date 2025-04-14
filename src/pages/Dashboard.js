@@ -1,10 +1,39 @@
 import React, { useState } from 'react';
 import {
-  Box, Grid, Paper, Card, Button, Typography, FormGroup, FormControlLabel, 
-  Switch, TextField, List, ListItem, ListItemText, Table, TableBody, 
-  TableCell, TableContainer, TableRow, TableFooter, Pagination, Stack, 
-  TableSortLabel, CardContent, CardActions, Breadcrumbs, Drawer, Backdrop, Slider, Dialog, DialogTitle
+  Box,
+  Grid,
+  Paper,
+  Card,
+  Button,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  TextField,
+  List,
+  ListItem,
+  ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableFooter,
+  Pagination,
+  Stack,
+  TableSortLabel,
+  CardContent,
+  CardActions,
+  Breadcrumbs,
+  Drawer,
+  Backdrop,
+  Slider,
+  Dialog,
+  DialogTitle,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -12,26 +41,45 @@ const Dashboard = () => {
   const [sortDirection, setSortDirection] = useState('asc');
   const [currentPage, setCurrentPage] = useState(1);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleBackdropToggle = () => setBackdropOpen(!backdropOpen);
   const handleSort = () => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
   const handlePaginationChange = (event, value) => setCurrentPage(value);
   const handleCloseDialog = () => setDialogOpen(false);
 
+  // Array of navigation links
+  const navigationLinks = [
+    { name: 'Home', path: '/home' },
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Checking', path: '/checking' },
+    { name: 'Budget', path: '/budget' },
+    { name: 'Expense', path: '/expense' },
+    { name: 'Savings', path: '/savings' },
+    { name: 'Settings', path: '/settings' },
+    { name: 'Help', path: '/help' },
+    { name: 'Statistics', path: '/statistics' },
+  ];
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <Drawer variant="permanent" sx={{ width: 250 }}>
+      <Drawer variant="permanent" sx={{ width: isMobile ? 200 : 250 }}>
         <Box sx={{ padding: 2 }}>
-          <Typography variant="h6">Navigation</Typography>
+          <Typography variant="h6" gutterBottom>
+            Navigation
+          </Typography>
           <List>
-            <ListItem button component="a" href="/dashboard">
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button component="a" href="/savings">
-              <ListItemText primary="Savings" />
-            </ListItem>
-            <ListItem button component="a" href="/settings">
-              <ListItemText primary="Settings" />
-            </ListItem>
+            {navigationLinks.map((link) => (
+              <ListItem
+                button
+                key={link.name}
+                component={Link}
+                to={link.path}
+              >
+                <ListItemText primary={link.name} />
+              </ListItem>
+            ))}
           </List>
         </Box>
       </Drawer>
@@ -49,12 +97,26 @@ const Dashboard = () => {
               <Grid item xs={12} sm={6} md={4}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>Budget Overview</Typography>
-                    <Slider defaultValue={50} aria-label="Budget Slider" valueLabelDisplay="auto" />
+                    <Typography variant="h6" gutterBottom>
+                      Budget Overview
+                    </Typography>
+                    <Slider
+                      defaultValue={50}
+                      aria-label="Budget Slider"
+                      valueLabelDisplay="auto"
+                      sx={{ marginBottom: 2 }}
+                    />
                     <FormGroup>
                       <FormControlLabel control={<Switch />} label="Show Budget Alerts" />
                     </FormGroup>
-                    <TextField label="Notes" fullWidth multiline rows={3} variant="outlined" />
+                    <TextField
+                      label="Notes"
+                      fullWidth
+                      multiline
+                      rows={3}
+                      variant="outlined"
+                      sx={{ marginTop: 2 }}
+                    />
                   </CardContent>
                   <CardActions>
                     <Button variant="contained" onClick={handleBackdropToggle}>
@@ -80,22 +142,20 @@ const Dashboard = () => {
                         </TableCell>
                         <TableCell align="right">Amount</TableCell>
                       </TableRow>
-                      <TableRow>
-                        <TableCell>Expense 1</TableCell>
-                        <TableCell align="right">$50</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Expense 2</TableCell>
-                        <TableCell align="right">$120</TableCell>
-                      </TableRow>
+                      {[{ name: 'Expense 1', amount: 50 }, { name: 'Expense 2', amount: 120 }].map((expense, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{expense.name}</TableCell>
+                          <TableCell align="right">${expense.amount}</TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                     <TableFooter>
                       <TableRow>
                         <TableCell colSpan={2}>
                           <Stack spacing={2} alignItems="center">
-                            <Pagination 
-                              count={10} 
-                              page={currentPage} 
+                            <Pagination
+                              count={10}
+                              page={currentPage}
                               onChange={handlePaginationChange}
                               color="primary"
                             />
@@ -107,25 +167,29 @@ const Dashboard = () => {
                 </TableContainer>
               </Grid>
             </Grid>
+
+            <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+              <DialogTitle>Alert</DialogTitle>
+              <Box sx={{ padding: 2 }}>
+                <Typography variant="body1">
+                  Something important needs your attention.
+                </Typography>
+                <Button variant="contained" color="primary" onClick={handleCloseDialog}>
+                  Okay
+                </Button>
+              </Box>
+            </Dialog>
+
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={backdropOpen}
+              onClick={handleBackdropToggle}
+            >
+              <Typography variant="h6" color="inherit">
+                Loading...
+              </Typography>
+            </Backdrop>
           </Stack>
-
-          <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-            <DialogTitle>Alert</DialogTitle>
-            <Box sx={{ padding: 2 }}>
-              <Typography variant="body1">Something important needs your attention.</Typography>
-              <Button variant="contained" color="primary" onClick={handleCloseDialog}>
-                Okay
-              </Button>
-            </Box>
-          </Dialog>
-
-          <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={backdropOpen}
-            onClick={handleBackdropToggle}
-          >
-            <Typography variant="h6" color="inherit">Loading...</Typography>
-          </Backdrop>
         </Box>
       </Box>
     </Box>

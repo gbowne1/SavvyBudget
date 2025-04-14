@@ -3,39 +3,58 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 
 function Budget() {
   const [budget, setBudget] = useState(0);
-  const [remaining, setRemaining] = useState(0);
+  const [expenses, setExpenses] = useState(0);
 
   const handleBudgetChange = (event) => {
-    setBudget(event.target.value);
+    const value = Math.max(0, Number(event.target.value));
   };
 
-  const handleRemainingChange = (event) => {
-    setRemaining(event.target.value);
+  const handleExpensesChange = (event) => {
+    const value = Math.max(0, Number(event.target.value));
+    setExpenses(value);
+  };
+
+  const handleSave = () => {
+    alert(`Budget Saved: $${budget}, Remaining: $${budget - expenses}`);
   };
 
   return (
-    <Box>
-      <Typography variant="h2">Budget</Typography>
-      <Box>
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Budget Tracker
+      </Typography>
+      <Box sx={{ marginBottom: 2 }}>
         <TextField
           id="budget"
-          label="Budget"
+          label="Total Budget"
           type="number"
           value={budget}
           onChange={handleBudgetChange}
+          fullWidth
+          inputProps={{ 'aria-label': 'Enter total budget' }}
         />
       </Box>
-      <Box>
+      <Box sx={{ marginBottom: 2 }}>
         <TextField
-          id="remaining"
-          label="Remaining"
+          id="expenses"
+          label="Expenses"
           type="number"
-          value={remaining}
-          onChange={handleRemainingChange}
+          value={expenses}
+          onChange={handleExpensesChange}
+          fullWidth
+          inputProps={{ 'aria-label': 'Enter expenses' }}
         />
       </Box>
+      <Typography variant="body1" sx={{ marginBottom: 2 }}>
+        Remaining Budget: ${budget - expenses}
+      </Typography>
       <Box>
-        <Button variant="contained" color="primary">
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleSave} 
+          aria-label="Save budget details"
+        >
           Save
         </Button>
       </Box>

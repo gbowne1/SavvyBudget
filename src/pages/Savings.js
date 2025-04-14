@@ -13,52 +13,54 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  Alert,
 } from '@mui/material';
 
-function Savings() {
-  const [goal, setGoal] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('');
+const Savings = () => {
+  const [form, setForm] = useState({ goal: '', amount: '', category: '' });
   const [savings, setSavings] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Function to sanitize and format the monetary input
-  const parseAmount = (input) => {
-    const sanitized = input.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except "."
-    return parseFloat(sanitized);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const parsedAmount = parseAmount(amount);
-    if (goal.trim() && parsedAmount > 0 && category.trim()) {
-      const newGoal = { goal, amount: parsedAmount, category, progress: 0 };
-      if (editIndex !== null) {
-        const updatedSavings = [...savings];
-        updatedSavings[editIndex] = newGoal;
-        setSavings(updatedSavings);
-        setEditIndex(null);
-      } else {
-        setSavings([...savings, newGoal]);
-      }
-      resetForm();
+    const parsedAmount = parseFloat(form.amount);
+
+    if (!form.goal.trim() || parsedAmount <= 0 || !form.category.trim()) {
+      setErrorMessage('Please fill out all fields correctly.');
+      return;
     }
+
+    const newGoal = { ...form, amount: parsedAmount, progress: 0 };
+
+    if (editIndex !== null) {
+      const updatedSavings = [...savings];
+      updatedSavings[editIndex] = newGoal;
+      setSavings(updatedSavings);
+      setEditIndex(null);
+    } else {
+      setSavings([...savings, newGoal]);
+    }
+
+    resetForm();
   };
 
   const resetForm = () => {
-    setGoal('');
-    setAmount('');
-    setCategory('');
+    setForm({ goal: '', amount: '', category: '' });
     setDialogOpen(false);
+    setErrorMessage('');
   };
 
   const handleEdit = (index) => {
     const selectedGoal = savings[index];
-    setGoal(selectedGoal.goal);
-    setAmount(selectedGoal.amount);
-    setCategory(selectedGoal.category);
+    setForm(selectedGoal);
     setEditIndex(index);
     setDialogOpen(true);
   };
@@ -70,32 +72,45 @@ function Savings() {
   return (
     <Box sx={{ padding: 3 }}>
       <Typography variant="h4" gutterBottom>
-        Savings
+        Savings Goals
       </Typography>
       <Paper sx={{ padding: 2, marginBottom: 3 }}>
         <form onSubmit={handleSubmit}>
+          {errorMessage && (
+            <Alert severity="error" sx={{ marginBottom: 2 }}>
+              {errorMessage}
+            </Alert>
+          )}
           <TextField
             label="Goal"
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            name="goal"
+            value={form.goal}
+            onChange={handleInputChange}
             fullWidth
             margin="normal"
+            required
+            inputProps={{ 'aria-label': 'Savings Goal Name' }}
           />
           <TextField
             label="Amount"
-            type="text" // Changed to text to handle formats like "$1,000.00"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            name="amount"
+            type="number"
+            value={form.amount}
+            onChange={handleInputChange}
             fullWidth
             margin="normal"
+            required
+            inputProps={{ 'aria-label': 'Savings Goal Amount', min: 0 }}
           />
           <TextField
             select
             label="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            name="category"
+            value={form.category}
+            onChange={handleInputChange}
             fullWidth
             margin="normal"
+            required
           >
             <MenuItem value="Travel">Travel</MenuItem>
             <MenuItem value="Emergency">Emergency</MenuItem>
@@ -103,7 +118,7 @@ function Savings() {
             <MenuItem value="Other">Other</MenuItem>
           </TextField>
           <Button type="submit" variant="contained" color="primary" sx={{ marginTop: 2 }}>
-            {editIndex !== null ? 'Update Goal' : 'Add Savings Goal'}
+            {editIndex !== null ? 'Update Goal' : 'Add Goal'}
           </Button>
         </form>
       </Paper>
@@ -115,19 +130,10 @@ function Savings() {
           <ListItem key={index} divider>
             <ListItemText
               primary={`${item.goal} (${item.category})`}
-              secondary={`Amount: $${item.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} | Progress: ${item.progress}%`}
+              secondary={`Amount: $${item.amount.toLocaleString()} | Progress: ${item.progress}%`}
             />
-            <LinearProgress
-              variant="determinate"
-              value={item.progress}
-              sx={{ width: '100%', marginY: 1 }}
-            />
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => handleEdit(index)}
-              sx={{ marginRight: 1 }}
-            >
+            <LinearProgress variant="determinate" value={item.progress} sx={{ width: '100%', marginY: 1 }} />
+            <Button variant="outlined" color="primary" onClick={() => handleEdit(index)} sx={{ marginRight: 1 }}>
               Edit
             </Button>
             <Button variant="outlined" color="secondary" onClick={() => handleDelete(index)}>
@@ -136,33 +142,38 @@ function Savings() {
           </ListItem>
         ))}
       </List>
-
       <Dialog open={dialogOpen} onClose={resetForm}>
         <DialogTitle>{editIndex !== null ? 'Edit Savings Goal' : 'Add Savings Goal'}</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <TextField
               label="Goal"
-              value={goal}
-              onChange={(e) => setGoal(e.target.value)}
+              name="goal"
+              value={form.goal}
+              onChange={handleInputChange}
               fullWidth
               margin="normal"
+              required
             />
             <TextField
               label="Amount"
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              name="amount"
+              type="number"
+              value={form.amount}
+              onChange={handleInputChange}
               fullWidth
               margin="normal"
+              required
             />
             <TextField
               select
               label="Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              name="category"
+              value={form.category}
+              onChange={handleInputChange}
               fullWidth
               margin="normal"
+              required
             >
               <MenuItem value="Travel">Travel</MenuItem>
               <MenuItem value="Emergency">Emergency</MenuItem>
@@ -180,6 +191,6 @@ function Savings() {
       </Dialog>
     </Box>
   );
-}
+};
 
 export default Savings;

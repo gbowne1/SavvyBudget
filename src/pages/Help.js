@@ -1,25 +1,45 @@
 import React from 'react';
-import { Typography, List, ListItem, ListItemText } from '@mui/material';
+import { Typography, List, ListItem, ListItemText, Box } from '@mui/material';
 
 function Help() {
+  // Questions and answers stored in an array for dynamic rendering
+  const helpItems = [
+    {
+      question: 'How do I create a budget?',
+      answer: 'You can create a budget by visiting the Budget page and using the BudgetForm component.',
+    },
+    {
+      question: 'How do I add an expense?',
+      answer: 'You can add an expense by visiting the Expense page and using the ExpenseForm component.',
+    },
+    {
+      question: 'How do I set up a savings goal?',
+      answer: 'You can set up a savings goal by visiting the Savings page and using the SavingsForm component.',
+    },
+    {
+      question: 'How do I customize the app settings?',
+      answer: 'You can customize the app settings by visiting the Settings page and adjusting the settings components.',
+    },
+  ];
+
   return (
-    <div>
-      <Typography variant="h4">Help</Typography>
-      <List>
-        <ListItem>
-          <ListItemText primary="How do I create a budget?" secondary="You can create a budget by visiting the Budget page and filling out the BudgetForm component." />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="How do I add an expense?" secondary="You can add an expense by visiting the Expense page and filling out the ExpenseForm component." />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="How do I set up a savings goal?" secondary="You can set up a savings goal by visiting the Savings page and filling out the SavingsForm component." />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="How do I customize the app settings?" secondary="You can customize the app settings by visiting the Settings page and adjusting the settings components." />
-        </ListItem>
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Help
+      </Typography>
+      <List aria-label="Help topics">
+        {helpItems.map((item, index) => (
+          <ListItem key={index} sx={{ paddingY: 1 }}>
+            <ListItemText
+              primary={item.question}
+              secondary={item.answer}
+              primaryTypographyProps={{ fontWeight: 'bold' }}
+              secondaryTypographyProps={{ color: 'text.secondary' }}
+            />
+          </ListItem>
+        ))}
       </List>
-    </div>
+    </Box>
   );
 }
 

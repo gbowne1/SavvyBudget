@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 import { PieChart, LineChart, BarChart } from 'react-chartkick';
-import { Grid, Paper, Typography, Select, MenuItem } from '@mui/material';
+import { Grid, Paper, Typography, Select, MenuItem, Box, Table, TableBody, TableCell, TableHead, TableRow, Alert } from '@mui/material';
+
+function ChartCard({ title, children }) {
+  return (
+    <Grid item xs={12} md={6}>
+      <Paper sx={{ padding: 2 }}>
+        <Typography variant="h6" align="center" gutterBottom>
+          {title}
+        </Typography>
+        {children}
+      </Paper>
+    </Grid>
+  );
+}
 
 function SpendingByCategory({ expenses }) {
-  // Categorize expenses by type
-  const categories = {};
-  expenses.forEach(expense => {
-    if (categories[expense.type]) {
-      categories[expense.type] += expense.amount;
-    } else {
-      categories[expense.type] = expense.amount;
-    }
-  });
+  const categories = expenses.reduce((acc, expense) => {
+    acc[expense.type] = (acc[expense.type] || 0) + expense.amount;
+    return acc;
+  }, {});
 
-  // Convert data to format expected by chart library
   const data = Object.entries(categories).map(([type, amount]) => [type, amount]);
 
   return (
-    <Grid item xs={12} md={6}>
-      <Paper>
-        <Typography variant="h6" align="center">Spending by Category</Typography>
-        <PieChart data={data} />
-      </Paper>
-    </Grid>
+    <ChartCard title="Spending by Category">
+      <PieChart data={data} />
+    </ChartCard>
   );
 }
 
@@ -30,94 +34,95 @@ function NetWorth({ assets, liabilities }) {
   const netWorth = assets - liabilities;
 
   return (
-    <Grid item xs={12} md={6}>
-      <Paper>
-        <Typography variant="h6" align="center">Net Worth</Typography>
-        <Typography variant="h3" align="center">${netWorth}</Typography>
-        <LineChart data={[['Assets', assets], ['Liabilities', liabilities]]} />
-      </Paper>
-    </Grid>
+    <ChartCard title="Net Worth">
+      <Typography variant="h3" align="center">${netWorth.toLocaleString()}</Typography>
+      <LineChart data={[['Assets', assets], ['Liabilities', liabilities]]} />
+    </ChartCard>
   );
 }
 
 function SavingsRate({ income, expenses }) {
-  const totalExpenses = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+  const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
   const savingsRate = ((income - totalExpenses) / income) * 100;
 
   return (
-    <Grid item xs={12} md={6}>
-      <Paper>
-        <Typography variant="h6" align="center">Savings Rate</Typography>
-        <Typography variant="h3" align="center">{savingsRate.toFixed(2)}%</Typography>
-        <BarChart data={[['Savings Rate', savingsRate]]} />
-      </Paper>
-    </Grid>
+    <ChartCard title="Savings Rate">
+      <Typography variant="h3" align="center">{savingsRate.toFixed(2)}%</Typography>
+      <BarChart data={[['Savings Rate', savingsRate]]} />
+    </ChartCard>
   );
 }
 
 function BillPaymentHistory({ bills }) {
+  if (!bills.length) {
+    return (
+      <ChartCard title="Bill Payment History">
+        <Typography align="center">No bills available.</Typography>
+      </ChartCard>
+    );
+  }
+
   return (
-    <Grid item xs={12} md={6}>
-      <Paper>
-        <Typography variant="h6" align="center">Bill Payment History</Typography>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Due Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bills.map(bill => (
-              <tr key={bill.id}>
-                <td>{bill.name}</td>
-                <td>{bill.dueDate}</td>
-                <td>{bill.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Paper>
-    </Grid>
+    <ChartCard title="Bill Payment History">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Due Date</TableCell>
+            <TableCell>Status</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {bills.map((bill) => (
+            <TableRow key={bill.id}>
+              <TableCell>{bill.name}</TableCell>
+              <TableCell>{bill.dueDate}</TableCell>
+              <TableCell>{bill.status}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </ChartCard>
   );
 }
 
 function Statistics({ expenses, assets, liabilities, income, bills }) {
-	const [timePeriod, setTimePeriod] = useState('monthly');
+  const [timePeriod, setTimePeriod] = useState('monthly');
 
-	const handleTimePeriodChange = (event) => {
-        setTimePeriod(event.target.value);
-    };
-	// Filter expenses by time period
-	const filteredExpenses = expenses.filter(expense => {
-	  switch (timePeriod) {
-		case 'monthly':
-		  return expense.date.getMonth() === new Date().getMonth();
-		case 'yearly':
-		  return expense.date.getFullYear() === new Date().getFullYear();
-		default:
-		  return true;
-	  }
-	});
+  const handleTimePeriodChange = (event) => setTimePeriod(event.target.value);
+
+  const filteredExpenses = expenses.filter((expense) => {
+    const date = new Date(expense.date); // Ensure proper parsing
+    if (timePeriod === 'monthly') {
+      return date.getMonth() === new Date().getMonth();
+    }
+    if (timePeriod === 'yearly') {
+      return date.getFullYear() === new Date().getFullYear();
+    }
+    return true;
+  });
 
   return (
-	  <Grid container spacing={2}>
-		  <Select value={timePeriod} onChange={handleTimePeriodChange}>
-                <MenuItem value="monthly">Monthly</MenuItem>
-                <MenuItem value="yearly">Yearly</MenuItem>
-            </Select>
-      <SpendingByCategory expenses={filteredExpenses} />
-      <NetWorth assets={assets} liabilities={liabilities} />
-      <SavingsRate
-        income={income}
-        expenses={filteredExpenses}
-        timePeriod={timePeriod}
-        setTimePeriod={setTimePeriod}
-      />
-      <BillPaymentHistory bills={bills} />
-      {/* Add more statistics components here */}
-    </Grid>
+    <Box sx={{ padding: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        Statistics
+      </Typography>
+      <Box sx={{ marginBottom: 2 }}>
+        <Select value={timePeriod} onChange={handleTimePeriodChange} fullWidth>
+          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="yearly">Yearly</MenuItem>
+        </Select>
+        <Typography variant="body2" align="center" sx={{ marginTop: 1 }}>
+          Displaying data for: <strong>{timePeriod.charAt(0).toUpperCase() + timePeriod.slice(1)}</strong>
+        </Typography>
+      </Box>
+      <Grid container spacing={2}>
+        <SpendingByCategory expenses={filteredExpenses} />
+        <NetWorth assets={assets} liabilities={liabilities} />
+        <SavingsRate income={income} expenses={filteredExpenses} />
+        <BillPaymentHistory bills={bills} />
+      </Grid>
+    </Box>
   );
 }
 

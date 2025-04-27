@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Container, Grid, Typography, Paper, Button, Dialog, DialogActions,
   DialogContent, DialogTitle, TextField, Select, MenuItem, FormControl,
@@ -26,12 +26,8 @@ const Checking = ({ accountId = 1 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchAccountData();
-    fetchTransactions();
-  }, [accountId]);
-
-  const fetchAccountData = async () => {
+  // Memoized fetchAccountData function
+  const fetchAccountData = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/accounts/${accountId}`);
@@ -41,16 +37,23 @@ const Checking = ({ accountId = 1 }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accountId]);
 
-  const fetchTransactions = async () => {
+  // Memoized fetchTransactions function
+  const fetchTransactions = useCallback(async () => {
     try {
       const response = await axios.get(`/api/transactions/${accountId}`);
       setTransactions(response.data);
     } catch (error) {
       setError('Failed to load transactions.');
     }
-  };
+  }, [accountId]);
+
+  // useEffect with memoized dependencies
+  useEffect(() => {
+    fetchAccountData();
+    fetchTransactions();
+  }, [fetchAccountData, fetchTransactions]); // Dependencies are properly tracked
 
   const handleAddTransaction = async () => {
     try {
